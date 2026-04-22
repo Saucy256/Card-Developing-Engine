@@ -1,8 +1,28 @@
-import tkinter as tk
+from tkinter import *
+from tkinter import ttk
+import os
+
+# Specify the nested directory structure
+nested_directory = "parent_folder/child_folder"
+
+# Attempts to create a nested directory
+try:
+    os.makedirs(nested_directory)
+    print(f"Nested directories '{nested_directory}' created successfully.")
+# Cancels file creation under circumstance of that file already existing
+except FileExistsError:
+    print(f"One or more directories in '{nested_directory}' already exist.")
+# Cancels file creation under circumstance that correct permissions have not been granted
+except PermissionError:
+    print(f"Permission denied: Unable to create '{nested_directory}'.")
+# Cancels file creation and gives any other circumstance.
+except Exception as e:
+    print(f"An error occurred: {e}")
+
 
 def WindowStartForGen():
     #create window
-    root = tk.Tk()
+    root = Tk()
 
     # Name of Window
     root.title("Card Generator Definer")
@@ -14,10 +34,25 @@ def WindowStartForGen():
     IntroTitle = [110, 40]
 
     # Prints Text to Window
-    label = tk.Label(root, text = "Welcome to the Digital Card Creator.")
+    label = Label(root, text = "Welcome to the Digital Card Creator.")
     label.place(x = IntroTitle[0], y = IntroTitle[1])
-    label = tk.Label(root, text = "This Code is designed to aid and help in the creation of Trading Card Creation for digital games or for eventual printing.")
+    label = Label(root, text = "This Code is designed to aid and help in the creation of Trading Card Creation for digital games or for eventual printing.")
     label.place(x = IntroTitle[0], y = (IntroTitle[1] + IntroTitle[1]*1))
+
+    # Copy Names of files from Deck_List
+    deck_options = []
+    for deck in os.listdir("Deck_List"):
+            # Prints file names present Deck_List folder
+            deck_options.append(deck) # add to list
+    deck_options.append("+ New Deck")
+
+    clicked = StringVar()
+    clicked.set(deck_options[0])
+
+    drop = OptionMenu(root, clicked, *deck_options, command=selected)
+    drop.pack(pady=20)
+
+    myButton = Button(root, text"", command=selected)
 
     # Start Event Loop
     root.mainloop()
