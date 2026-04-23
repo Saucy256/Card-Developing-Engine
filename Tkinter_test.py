@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter import ttk
 import os
 
+'''
+# Base code for folder creation
 # Specify the nested directory structure
 nested_directory = "parent_folder/child_folder"
 
@@ -18,17 +20,21 @@ except PermissionError:
 # Cancels file creation and gives any other circumstance.
 except Exception as e:
     print(f"An error occurred: {e}")
+'''
 
+# Finds size of computer screen for window creation.
+size = os.get_terminal_size()
 
 def WindowStartForGen():
     #create window
     root = Tk()
+    
 
     # Name of Window
     root.title("Card Generator Definer")
 
     # Window Size
-    root.geometry("1000x750")
+    root.geometry("960x540")
 
     # Locationary Variables
     IntroTitle = [110, 40]
@@ -46,13 +52,20 @@ def WindowStartForGen():
             deck_options.append(deck) # add to list
     deck_options.append("+ New Deck")
 
+    def selected(event):
+        #selectDeck = Label(root, text=clicked.get()).pack()
+        if clicked.get() == "+ New Deck":
+            selectDeck = Label(root, text="Creating new Deck folder.").pack()
+        else:
+            selectDeck = Label(root, text=f'The Deck selected was {clicked.get().pack()}.').pack()
+    
     clicked = StringVar()
     clicked.set(deck_options[0])
 
     drop = OptionMenu(root, clicked, *deck_options, command=selected)
     drop.pack(pady=20)
 
-    myButton = Button(root, text"", command=selected)
+    # myButton = Button(root, text"", command=selected)
 
     # Start Event Loop
     root.mainloop()
