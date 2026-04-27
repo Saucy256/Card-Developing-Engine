@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import ttk
 import os
 
+# Initalized Variables
+root = Tk()
+
 '''
 # Base code for folder creation
 # Specify the nested directory structure
@@ -22,32 +25,28 @@ except Exception as e:
     print(f"An error occurred: {e}")
 '''
 
-# Finds size of computer screen for window creation.
-size = os.get_terminal_size()
 
-def WindowStartForGen():
-    
-    
-    #create window
-    root = Tk()
-    
-    
-    editorMenu = Menu(root)
-    root.config(menu=editorMenu)
+# Create Window for main root following the "Initialization" window
+def CreateMainGenWindow(DeckSelected):
+    # Name of Window
+    root.title(f'{DeckSelected} Editor')
 
-    def our_command():
-        pass
-    
-    file_Menu = Menu(editorMenu)
-    editorMenu.add_cascade(Label="File", menu=file_Menu)
-    file_Menu.add_command(Label="New...", command=root.our_command)
-    file_Menu.add_separator()
-    file_Menu.add_command(Label="Exit", command=root.quit)
+    # Window Size
+    root.geometry(f'{960}x{540}')
 
+
+    # Locationary Variables
+    IntroTitle = [110, 40]
+
+    editorMenu = Menu
+
+
+# Creates Initialization window
+def CreateInitializationWindow():
+    
 
     # Name of Window
-    root.title("Card Generator Definer")
-
+    root.title("Initialize Card Generator")
 
     # Window Size
     root.geometry("960x540")
@@ -71,21 +70,48 @@ def WindowStartForGen():
             deck_options.append(deck)
     # Adds '+ New Deck' button to Deck_List, allowing for adding of decks.
     deck_options.append("+ New Deck")
+    
+    def DeckCreationWindow():
 
-    def editorsMenu(y=False, n=False):
-        if y == True:
-            selectDeck = Label(root, text="Opening the Deck folder.").pack()
-        elif n == True:
-            selectDeck = Label(root, text="Cancelling opening of the Deck folder.").pack()
+        root.title("Deck Creation")
+        root.geometry("400x600")
+    # Uses "Confirm Creation" button to build a new folder path
+    def ConfirmFolderCreation():
+        selectDeck = Label(root, text="Opening the Deck folder.").pack()
+        CreateMainGenWindow(clicked.get())
+        
+        exit("Initialize Card Generator")    
+
+    # Uses "Cancel Creation" button to close menu and restart file initialization process
+    def CancelFolderCreation():
+        selectDeck = Label(root, "Cancelling.").pack()
+        selectDeck = Label(root, "Please Select a new Deck").pack()
+
+    # Uses "Confirm Selection" button to open a folder path to selected path
+    def ConfirmDeckSelection(DeckName):
+        selectDeck = Label(root, "Opening the Deck folder.").pack()
+        CreateMainGenWindow(clicked.get())
+        exit("Initialize Card Generator")
+
+    # Uses "Cancel Selection" button to close menu and restart file initialization process
+    def CancelDeckSelection():
+        selectDeck = Label(root, text="Cancelling.").pack()
+        selectDeck = Label(root, text="Please Select a new Deck").pack()
 
     def selected(event):
-        #selectDeck = Label(root, text=clicked.get()).pack()
+        selectDeck = Label(root, text=clicked.get()).pack()
         if clicked.get() == "+ New Deck":
-            selectDeck = Label(root, text="Creating a new Deck folder.").pack()
+            selectDeck = Label(root, text="Please confirm you would like to create a new Deck folder.").pack()
+            ConfirmCreation = Button(root, text="Confirm Deck Creation", command=ConfirmFolderCreation)
+            ConfirmCreation.pack()
+            CancelCreation = Button(root, text="Cancel Deck Creation", command=CancelFolderCreation)
+            CancelCreation.pack()
         else:
             selectDeck = Label(root, text=f'The Deck selected was {clicked.get()}. Would you like to confirm?').pack()
-            confirmDeck = Button(root, text="Confirm Deck", command=editorsMenu)
-            confirmDeck.pack()
+            ConfirmSelection = Button(root, text="Confirm Deck Selection", command=ConfirmDeckSelection)
+            ConfirmSelection.pack()
+            CancelSelection = Button(root, text="Confirm Deck Selection", command=ConfirmDeckSelection)
+            CancelSelection.pack()
 
     
     clicked = StringVar()
@@ -109,4 +135,4 @@ def WindowStartForGen():
     # Start Event Loop
     root.mainloop()
 
-WindowStartForGen()
+CreateInitializationWindow()
