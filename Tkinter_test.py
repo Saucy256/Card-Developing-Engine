@@ -2,8 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import os
 
-# Initalized Variables
-root = Tk()
+
 
 '''
 # Base code for folder creation
@@ -26,30 +25,38 @@ except Exception as e:
 '''
 
 
-# Create Window for main root following the "Initialization" window
-def CreateMainGenWindow(DeckSelected):
-    # Name of Window
-    root.title(f'{DeckSelected} Editor')
 
-    # Window Size
-    root.geometry(f'{960}x{540}')
-
-
-    # Locationary Variables
-    IntroTitle = [110, 40]
-
-    editorMenu = Menu
 
 
 # Creates Initialization window
 def CreateInitializationWindow():
     
+    # Create window for main root following the "Initialization" window
+    def CreateMainGenWindow():
+        DeckEdited = clicked.get()
+        Initialized.withdraw()
+        Editor = Toplevel()
+        # Name of Window
+        Editor.title(f'{clicked.get()} Deck Editor')
 
+        # Window Size
+        Editor.geometry(f'{960}x{540}')
+
+
+        # Locationary Variables
+        IntroTitle = [110, 40]
+
+        editorMenu = Menu
+        mainloop()
+    
+    # Root Title
+    Initialized = Tk()
+        
     # Name of Window
-    root.title("Initialize Card Generator")
+    Initialized.title("Initialize Card Generator")
 
     # Window Size
-    root.geometry("960x540")
+    Initialized.geometry("960x540")
 
 
     # Locationary Variables
@@ -57,9 +64,9 @@ def CreateInitializationWindow():
 
 
     # Prints Text to Window
-    label = Label(root, text = "Welcome to the Digital Card Creator.")
+    label = Label(Initialized, text = "Welcome to the Digital Card Creator.")
     label.place(x = IntroTitle[0], y = IntroTitle[1])
-    label = Label(root, text = "This Code is designed to aid and help in the creation of Trading Card Creation for digital games or for eventual printing.")
+    label = Label(Initialized, text = "This Code is designed to aid and help in the creation of Trading Card Creation for digital games or for eventual printing.")
     label.place(x = IntroTitle[0], y = (IntroTitle[1] + IntroTitle[1]*1))
 
 
@@ -71,59 +78,65 @@ def CreateInitializationWindow():
     # Adds '+ New Deck' button to Deck_List, allowing for adding of decks.
     deck_options.append("+ New Deck")
     
+
+
+    # Create Window for creating deck folders.
     def DeckCreationWindow():
 
-        root.title("Deck Creation")
-        root.geometry("400x600")
+        DeckCreator = Toplevel()
+        DeckCreator.title("Deck Creator")
+        DeckCreator.geometry("400x600")
+        mainloop()
+
+
+
     # Uses "Confirm Creation" button to build a new folder path
     def ConfirmFolderCreation():
-        selectDeck = Label(root, text="Opening the Deck folder.").pack()
-        CreateMainGenWindow(clicked.get())
-        
-        exit("Initialize Card Generator")    
+        selectDeck = Label(Initialized, text="Please type the name of your deck.").pack()
+        CreateMainGenWindow()
+        Initialized.close()    
 
     # Uses "Cancel Creation" button to close menu and restart file initialization process
     def CancelFolderCreation():
-        selectDeck = Label(root, "Cancelling.").pack()
-        selectDeck = Label(root, "Please Select a new Deck").pack()
+        selectDeck = Label(Initialized, "Cancelling.").pack()
+        selectDeck = Label(Initialized, "Please Select a new Deck").pack()
 
     # Uses "Confirm Selection" button to open a folder path to selected path
-    def ConfirmDeckSelection(DeckName):
-        selectDeck = Label(root, "Opening the Deck folder.").pack()
-        CreateMainGenWindow(clicked.get())
-        exit("Initialize Card Generator")
+    def ConfirmDeckSelection():
+        selectDeck = Label(Initialized, text="Opening the Deck folder.").pack()
+        CreateMainGenWindow()
+        Initialized.close()  
 
     # Uses "Cancel Selection" button to close menu and restart file initialization process
     def CancelDeckSelection():
-        selectDeck = Label(root, text="Cancelling.").pack()
-        selectDeck = Label(root, text="Please Select a new Deck").pack()
+        selectDeck = Label(Initialized, text="Cancelling.").pack()
+        selectDeck = Label(Initialized, text="Please Select a new Deck").pack()
 
     def selected(event):
-        selectDeck = Label(root, text=clicked.get()).pack()
+        selectDeck = Label(Initialized, text=clicked.get()).pack()
         if clicked.get() == "+ New Deck":
-            selectDeck = Label(root, text="Please confirm you would like to create a new Deck folder.").pack()
-            ConfirmCreation = Button(root, text="Confirm Deck Creation", command=ConfirmFolderCreation)
+            selectDeck = Label(Initialized, text="Please confirm you would like to create a new Deck folder.").pack()
+            ConfirmCreation = Button(Initialized, text="Confirm Deck Creation", command=ConfirmFolderCreation)
             ConfirmCreation.pack()
-            CancelCreation = Button(root, text="Cancel Deck Creation", command=CancelFolderCreation)
+            CancelCreation = Button(Initialized, text="Cancel Deck Creation", command=CancelFolderCreation)
             CancelCreation.pack()
         else:
-            selectDeck = Label(root, text=f'The Deck selected was {clicked.get()}. Would you like to confirm?').pack()
-            ConfirmSelection = Button(root, text="Confirm Deck Selection", command=ConfirmDeckSelection)
+            selectDeck = Label(Initialized, text=f'The Deck selected was {clicked.get()}. Would you like to confirm?').pack()
+            ConfirmSelection = Button(Initialized, text="Confirm Deck Selection", command=ConfirmDeckSelection)
             ConfirmSelection.pack()
-            CancelSelection = Button(root, text="Confirm Deck Selection", command=ConfirmDeckSelection)
+            CancelSelection = Button(Initialized, text="Cancel Deck Selection", command=CancelDeckSelection)
             CancelSelection.pack()
-
-    
+    global clicked
     clicked = StringVar()
     clicked.set(deck_options[0])
 
     # Creates drop down menu for interactions
-    drop = OptionMenu(root, clicked, *deck_options, command=selected)
+    drop = OptionMenu(Initialized, clicked, *deck_options, command=selected)
     drop.pack(pady=20)
     
     
     '''
-    deck_Select = ttk.Combobox(root, value=deck_options)
+    deck_Select = ttk.Combobox(Initialized, value=deck_options)
     deck_Select.current(0)
     deck_Select.bind("<<ComboboxSelected>>", selected)
     deck_Select.pack()
@@ -133,6 +146,6 @@ def CreateInitializationWindow():
     
 
     # Start Event Loop
-    root.mainloop()
+    Initialized.mainloop()
 
 CreateInitializationWindow()
