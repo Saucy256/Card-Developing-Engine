@@ -5,18 +5,29 @@ from tkinter import *
 from tkinter import ttk
 import os
 
-# Global Variables Used.
+### Global Variables Used ###
+# Card Type Drop Down
 global CardTypeDD
+# Card Deck Being Edited
 global DeckEdited
+# Path to get to Deck chosen
 global Deck_Path
+# Path to get to Path chosen in deck
 global Type_Path
+# Name of Type name being assigned
 global TypeNameEntry
+# Deck Selection Drop Down
 global DeckSelectorDD
+# Creates loop for Name
 global ValidName
+# List of Decks
 global Deck_Options
+# List of Types
 global Type_Options
+# 
 global NewTypeEntry
 global EntryLoop
+global SetParameters
 
 
 
@@ -28,7 +39,6 @@ def CreateInitializationWindow():
     YofMainGen = 540  
     # Create window for main root following the "Initialization" window
     def CreateMainGenWindow():
-        '''
         # Create overlay window for viewing the 
         def CardViewScreen():
             # Set Root
@@ -43,7 +53,6 @@ def CreateInitializationWindow():
 
             # Locationary Variables
             IntroTitle = [XofMainGen/8, YofMainGen/10]
-        ''' 
 
         # Close Original Root and Set New
         Initialized.withdraw()
@@ -72,26 +81,34 @@ def CreateInitializationWindow():
             #Starts loop for valid type name
             ValidName = False
             while(ValidName == False):
-                def GetName():
+                def GetName(event):
                     # If Typing is completed with an empty name, the code bounces back a response.
-                    TypeNameEntry = NewTypeEntry.get()
+                    global TypeNameEntry
+                    TypeNameEntry = event
                     if TypeNameEntry == "" or TypeNameEntry == " + New Type":
                         Label(Editor, text=f'New type name invalid. Please try again.')
                     else:
                         Label(Editor, text=f'New Type Named {TypeNameEntry} is being created...').pack()
                         global ValidName
                         ValidName = True
+                # Requests user input to create new 'Type' name
                 global NewTypeEntry
                 NewTypeEntry = Entry(Editor, width=30)
                 NewTypeEntry.pack()
-                SubmitTypeName = Button(Editor, text="Submit Name", command=GetName)
-                SubmitTypeName.pack(pady=20)
-                GetName()
+                global TypeEntry
+                TypeEntry = StringVar(value="")
+                # Waits for button and submits Entry Name
+                SubmitTypeName = Button(Editor, text="Submit Name", command=lambda: TypeEntry.set(NewTypeEntry.get()))
+                SubmitTypeName.pack()
+                SubmitTypeName.wait_variable(TypeEntry)
+                GetName(TypeEntry)
+
                 
           
-           
-            CardTypeFolder = f'CardType_{TypeNameEntry}'
+            # Path to Card File
+            CardTypeFolder = f'CardType_{NewTypeEntry.get}'
             # Specify the nested directory structure
+            global CardTypes
             CardTypes = (f'{Deck_Path}{CardTypeFolder}')
 
             # Verifies Existance of Card Type directory
@@ -107,18 +124,17 @@ def CreateInitializationWindow():
             # Cancels file creation and gives any other circumstance.
             except Exception as e:
                 print(f"An error occurred: {e}")
-            
-            SetType()
 
 
-        def CardView():
-            SelectedType = CardTypeDD.get()
+        def CardView(event):
+            global SelectedType
+            SelectedType = event
             if SelectedType == " + New Type":
                 CardTypeCreator()
             else:
                 Label(Editor, text=f'The type of card you decided to view was: {SelectedType}')
                 Label(Editor, text="Opening seperate window to view cards....")
-                #CardViewScreen()
+                CardViewScreen(SelectedType)
 
         def SetType():
             Type_Options.clear()
@@ -135,19 +151,24 @@ def CreateInitializationWindow():
                     # Adds '+ New Deck' button to Deck_List, allowing for adding of decks.
                     Type_Options.append(" + New Type")
                     # Creates Drop Down Button for selecting card type to be edited
+                    global CardTypeDD
                     CardTypeDD = StringVar()
                     CardTypeDD.set(Type_Options[0])
 
                     # Creates drop down menu for interactions
-                    drop = OptionMenu(Editor, CardTypeDD, *Type_Options, command=CardView)
+                    drop = OptionMenu(Editor, CardTypeDD, *Type_Options, command=CardView(CardTypeDD.get()))
                     drop.pack(pady=20)
+                    
 
 
 
 
         # Specify the nested directory structure
         Type_Options = []
-        SetType()
+        SetParameters = False
+        while SetParameters == False:
+            SetType()
+            CardTypeCreator()
         
         
         mainloop()
@@ -205,7 +226,7 @@ def CreateInitializationWindow():
         DeckCreator.geometry(f'{XofCreationWin}x{YofCreationWin}')
 
 
-        # Type Name of deck
+        # Type Name of deckcard
         ValidName = False
         while ValidName == False:
             NewDeckName = Entry(DeckCreator, width=30)
