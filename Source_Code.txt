@@ -1,0 +1,59 @@
+
+
+
+Contains all source/reference code allocated to the Card Engine.
+
+
+Code taken from Youtube videos by John Elder have accessing links included
+# Youtube Videos by John Elder
+http://www.youtube.com/@JohnElderAI
+Code used from John Elder:
+    
+    # Creating Input Fields With TKinter - Python Tkinter GUI Tutorial #4
+    https://youtu.be/7A_csP9drJw?si=mbcW1hX2pdvVu-VO
+
+    # Create New Windows in tKinter - Python Tkinter GUI Tutorial #14
+    https://youtu.be/qC3FYdpJI5Y?si=wWzvEkCwiIRkfsHC
+
+    # Binding Dropdown Menus and Combo Boxes - Python Tkinter GUI Tutorial #45
+    https://youtu.be/OPUSBBD2OJw?si=er61SNPaaYf4iG26
+
+    # Dependent Drop Downs and List Boxes - Python Tkinter GUI Tutorial #152
+    https://youtu.be/bH9r3wM9Idw?si=QP-d9CSIqmKInUo
+
+    # Create a directory in Python
+    https://www.geeksforgeeks.org/python/create-a-directory-in-python/
+        '''
+        import os
+
+        # Specify the nested directory structure
+        nested_directory = "parent_folder/child_folder"
+
+        # Create nested directories
+        try:
+            os.makedirs(nested_directory)
+            print(f"Nested directories '{nested_directory}' created successfully.")
+        except FileExistsError:
+            print(f"One or more directories in '{nested_directory}' already exist.")
+        except PermissionError:
+            print(f"Permission denied: Unable to create '{nested_directory}'.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        '''
+
+Code used from Geeks for Geeks
+    # Python Tkinter
+    https://www.geeksforgeeks.org/python/python-gui-tkinter/?_x_tr_hist=true
+
+    # Python Tkinter - Entry Widget
+    https://www.geeksforgeeks.org/python/python-tkinter-entry-widget/
+
+    # Find path to the given file using Python
+    https://www.geeksforgeeks.org/python/find-path-to-the-given-file-using-python/
+
+Code used from Stack Overflow
+    # Making Tkinter wait untill button is pressed
+    https://stackoverflow.com/questions/44790449/making-tkinter-wait-untill-button-is-pressed
+
+    
+    
